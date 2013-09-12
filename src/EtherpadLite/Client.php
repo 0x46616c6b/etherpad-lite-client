@@ -206,8 +206,12 @@ class Client
         );
 
         $request = $httpClient->get($url, array(), array('query' => $params));
-        $response = $request->send()->getBody();
+        $response = $request->send();
 
-        return new Response($response);
+        if ($response->isError()) {
+            throw new BadResponseException();
+        }
+
+        return new Response($response->getBody());
     }
 }
