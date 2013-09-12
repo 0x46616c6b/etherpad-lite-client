@@ -1,0 +1,23 @@
+{
+    "name": "0x46616c6b/etherpad-lite-client",
+    "description": "PHP Client for Etherpad Lite",
+    "minimum-stability": "dev",
+    "authors": [
+        {
+            "name": "Louis Miller",
+            "email": "louis@systemli.org"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "guzzle/guzzle": "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*@stable"
+    },
+    "autoload": {
+        "psr-0": {
+            "EtherpadLite": "src/"
+        }
+    }
+}
