@@ -6,7 +6,7 @@ This package provides to give you an easy access to [Etherpad Lite](https://gith
 
 Install the package via Composer
 
-	composer require 0x46616c6b:etherpad-lite-client:dev-master
+	composer require 0x46616c6b/etherpad-lite-client:dev-master
 
 Example (after install)
 
