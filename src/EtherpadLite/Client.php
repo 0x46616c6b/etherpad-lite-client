@@ -128,8 +128,6 @@ class Client
 
         $response = $request->send()->getBody();
 
-        print_r($response);
-
         return new Response($response);
     }
 }
