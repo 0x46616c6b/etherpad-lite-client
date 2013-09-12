@@ -1,5 +1,7 @@
 # PHP Client for Etherpad Lite
 
+[![Build Status](https://travis-ci.org/0x46616c6b/etherpad-lite-client.png?branch=master)](https://travis-ci.org/0x46616c6b/etherpad-lite-client)
+
 This package provides to give you an easy access to [Etherpad Lite](https://github.com/ether/etherpad-lite) throw there built-in [HTTP API](http://etherpad.org/doc/v1.2.11/#index_http_api).
 
 ## Installation
