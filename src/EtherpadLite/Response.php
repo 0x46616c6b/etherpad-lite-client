@@ -33,7 +33,7 @@ class Response
 
     public function getMessage()
     {
-        return $this->getMessage();
+        return $this->message;
     }
 
     public function getData()

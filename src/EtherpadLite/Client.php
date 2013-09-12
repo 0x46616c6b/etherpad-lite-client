@@ -4,6 +4,7 @@ namespace EtherpadLite;
 
 use EtherpadLite\Exception\UnsupportedMethodException;
 use Guzzle\Http\Client as HttpClient;
+use Guzzle\Http\Exception\BadResponseException;
 
 /**
  * Class Client
@@ -105,27 +106,106 @@ class Client
         $this->url = $url;
     }
 
-    public function __call($method, $args) {
+    public function __call($method, $args = array()) {
         if (!in_array($method, $this->methods)) {
             throw new UnsupportedMethodException();
         }
 
-        return $this->getResponse($method, $args);
+        $params = array();
+
+        switch ($method) {
+            case 'deleteGroup':
+                $params = array(
+                    'groupID' => isset($args[0]) ? $args[0] : ''
+                );
+                break;
+            case 'listPads':
+                $params = array(
+                    'groupID' => isset($args[0]) ? $args[0] : ''
+                );
+                break;
+            case 'createGroupPad':
+                $params = array(
+                    'groupID' => isset($args[0]) ? $args[0] : '',
+                    'padName' => isset($args[1]) ? $args[1] : '',
+                    'text' => isset($args[2]) ? $args[2] : ''
+                );
+                break;
+            case 'createPad':
+                $params = array(
+                    'padID' => isset($args[0]) ? $args[0] : '',
+                    'text' => isset($args[1]) ? $args[1] : ''
+                );
+                break;
+            case 'createAuthor':
+                if (isset($args[0])) {
+                    $params = array(
+                        'name' => $args[0]
+                    );
+                }
+                break;
+            case 'listPadsOfAuthor':
+                $params = array(
+                    'authorID' => isset($args[0]) ? $args[0] : ''
+                );
+                break;
+            case 'getAuthorName':
+                $params = array(
+                    'authorID' => isset($args[0]) ? $args[0] : ''
+                );
+                break;
+            case 'createSession':
+                $params = array(
+                    'groupID' => isset($args[0]) ? $args[0] : '',
+                    'authorID' => isset($args[1]) ? $args[1] : '',
+                    'validUntil' => isset($args[2]) ? $args[2] : ''
+                );
+                break;
+            case 'deleteSession':
+                $params = array(
+                    'sessionID' => isset($args[0]) ? $args[0] : ''
+                );
+                break;
+            case 'getSessionInfo':
+                $params = array(
+                    'sessionID' => isset($args[0]) ? $args[0] : ''
+                );
+                break;
+            case 'listSessionsOfGroup':
+                $params = array(
+                    'groupID' => isset($args[0]) ? $args[0] : ''
+                );
+                break;
+            case 'listSessionsOfAuthor':
+                $params = array(
+                    'authorID' => isset($args[0]) ? $args[0] : ''
+                );
+                break;
+            default:
+                break;
+        }
+
+        return $this->getResponse($method, $params);
     }
 
-    protected function getResponse($method, $args)
+    protected function getResponse($method, $params = array())
     {
         $httpClient = new HttpClient($this->url);
-        $request = $httpClient->get(
-            sprintf(
-                '/api/%s/%s?apikey=%s',
-                self::API_VERSION,
-                $method,
-                $this->apikey,
-                implode('&', $args)
-            )
+
+        $params = array_merge(
+            array(
+                'apikey' => $this->apikey
+            ),
+            $params
         );
 
+        $url = sprintf(
+            '/api/%s/%s',
+            self::API_VERSION,
+            $method
+        );
+
+        $request = $httpClient->get($url, array(), array('query' => $params));
         $response = $request->send()->getBody();
 
         return new Response($response);
