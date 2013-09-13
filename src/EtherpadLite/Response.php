@@ -10,34 +10,52 @@ class Response
     const CODE_NO_SUCH_FUNCTION = 3;
     const CODE_NO_OR_WRONG_API_KEY = 4;
 
-    protected $code = null;
-    protected $message = '';
-    protected $data = array();
+    private $response = array();
 
-
-    public function __construct($jsonResponse)
+    public function __construct(\Guzzle\Http\Message\Response $response)
     {
-        $response = json_decode($jsonResponse, true);
+        if ($response->isSuccessful()) {
+            $this->response = $response->json();
 
-        if (is_array($response)) {
-            foreach ($response as $key => $value) {
+            foreach ($this->response as $key => $value) {
                 $this->$key = $value;
             }
+        } else {
+            // TODO: Error handling
         }
     }
 
+    /**
+     * @return string|null
+     */
     public function getCode()
     {
-        return $this->code;
+        return isset($this->response['code']) ? $this->response['code'] : null;
     }
 
+    /**
+     * @return string|null
+     */
     public function getMessage()
     {
-        return $this->message;
+        return isset($this->response['message']) ? $this->response['message'] : null;
     }
 
+    /**
+     * @return string|null
+     */
     public function getData()
     {
-        return $this->data;
+        return isset($this->response['data']) ? $this->response['data'] : null;
+    }
+
+    /**
+     * Returns the entire response from Etherpad Lite API
+     *
+     * @return array
+     */
+    public function getResponse()
+    {
+        return $this->response;
     }
 }

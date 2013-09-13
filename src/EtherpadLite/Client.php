@@ -61,45 +61,6 @@ class Client
     private $apikey = null;
     private $url = null;
 
-    private $methods = array(
-        'createGroup',
-        'createGroupIfNotExistsFor',
-        'deleteGroup',
-        'listPads',
-        'createGroupPad',
-        'listAllGroups',
-        'createAuthor',
-        'createAuthorIfNotExistsFor',
-        'listPadsOfAuthor',
-        'getAuthorName',
-        'createSession',
-        'deleteSession',
-        'getSessionInfo',
-        'listSessionsOfGroup',
-        'listSessionsOfAuthor',
-        'getText',
-        'setText',
-        'getHTML',
-        'getChatHistory',
-        'getChatHead',
-        'createPad',
-        'getRevisionsCount',
-        'padUsersCount',
-        'padUsers',
-        'deletePad',
-        'getReadOnlyID',
-        'setPublicStatus',
-        'getPublicStatus',
-        'getPublicStatus',
-        'setPassword',
-        'isPasswordProtected',
-        'listAuthorsOfPad',
-        'getLastEdited',
-        'sendClientsMessage',
-        'checkToken',
-        'listAllPads',
-    );
-
     public function __construct($apikey, $url = 'http://localhost:9001')
     {
         $this->apikey = $apikey;
@@ -108,111 +69,75 @@ class Client
 
     public function __call($method, $args = array())
     {
-        if (!in_array($method, $this->methods)) {
+        if (!in_array($method, array_keys(self::getMethods()))) {
             throw new UnsupportedMethodException();
         }
 
-        $params = array();
-
-        switch ($method) {
-            case 'deleteGroup':
-                $params = array(
-                    'groupID' => isset($args[0]) ? $args[0] : ''
-                );
-                break;
-            case 'listPads':
-                $params = array(
-                    'groupID' => isset($args[0]) ? $args[0] : ''
-                );
-                break;
-            case 'createGroupPad':
-                $params = array(
-                    'groupID' => isset($args[0]) ? $args[0] : '',
-                    'padName' => isset($args[1]) ? $args[1] : '',
-                    'text' => isset($args[2]) ? $args[2] : ''
-                );
-                break;
-            case 'createPad':
-                $params = array(
-                    'padID' => isset($args[0]) ? $args[0] : '',
-                    'text' => isset($args[1]) ? $args[1] : ''
-                );
-                break;
-            case 'createAuthor':
-                if (isset($args[0])) {
-                    $params = array(
-                        'name' => $args[0]
-                    );
-                }
-                break;
-            case 'listPadsOfAuthor':
-                $params = array(
-                    'authorID' => isset($args[0]) ? $args[0] : ''
-                );
-                break;
-            case 'getAuthorName':
-                $params = array(
-                    'authorID' => isset($args[0]) ? $args[0] : ''
-                );
-                break;
-            case 'createSession':
-                $params = array(
-                    'groupID' => isset($args[0]) ? $args[0] : '',
-                    'authorID' => isset($args[1]) ? $args[1] : '',
-                    'validUntil' => isset($args[2]) ? $args[2] : ''
-                );
-                break;
-            case 'deleteSession':
-                $params = array(
-                    'sessionID' => isset($args[0]) ? $args[0] : ''
-                );
-                break;
-            case 'getSessionInfo':
-                $params = array(
-                    'sessionID' => isset($args[0]) ? $args[0] : ''
-                );
-                break;
-            case 'listSessionsOfGroup':
-                $params = array(
-                    'groupID' => isset($args[0]) ? $args[0] : ''
-                );
-                break;
-            case 'listSessionsOfAuthor':
-                $params = array(
-                    'authorID' => isset($args[0]) ? $args[0] : ''
-                );
-                break;
-            default:
-                break;
-        }
-
-        return $this->getResponse($method, $params);
+        $request = new Request($this->url, $this->apikey, $method, $args);
+        return new Response($request->send());
     }
 
-    protected function getResponse($method, $params = array())
+    /**
+     * Generates a random padID
+     *
+     * @return string
+     */
+    public function generatePadID()
     {
-        $httpClient = new HttpClient($this->url);
+        $chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        $length = 16;
+        $padID = "";
 
-        $params = array_merge(
-            array(
-                'apikey' => $this->apikey
-            ),
-            $params
-        );
-
-        $url = sprintf(
-            '/api/%s/%s',
-            self::API_VERSION,
-            $method
-        );
-
-        $request = $httpClient->get($url, array(), array('query' => $params));
-        $response = $request->send();
-
-        if ($response->isError()) {
-            throw new BadResponseException();
+        for ($i = 0; $i < $length; $i++) {
+            $padID .= $chars[rand()%strlen($chars)];
         }
 
-        return new Response($response->getBody());
+        return $padID;
+    }
+
+    /**
+     * Array that holds the available methods and their required parameter names
+     *
+     * @return array
+     */
+    public static function getMethods()
+    {
+        return array(
+            'createGroup' => array(),
+            'createGroupIfNotExistsFor' => array('groupMapper'),
+            'deleteGroup' => array('groupID'),
+            'listPads' => array('groupID'),
+            'createGroupPad' => array('groupID', 'padName', 'text'),
+            'listAllGroups' => array(),
+            'createAuthor' => array('name'),
+            'createAuthorIfNotExistsFor' => array('authorMapper', 'name'),
+            'listPadsOfAuthor' => array('authorID'),
+            'getAuthorName' => array('authorID'),
+            'createSession' => array('groupID', 'authorID', 'validUntil'),
+            'deleteSession' => array('sessionID'),
+            'getSessionInfo' => array('sessionID'),
+            'listSessionsOfGroup' => array('groupID'),
+            'listSessionsOfAuthor' => array('authorID'),
+            'getText' => array('padID', 'rev'),
+            'setText' => array('padID', 'text'),
+            'getHTML' => array('padID', 'rev'),
+            'getChatHistory' => array('padID', 'start', 'end'),
+            'getChatHead' => array('padID'),
+            'createPad' => array('padID', 'text'),
+            'getRevisionsCount' => array('padID'),
+            'padUsersCount' => array('padID'),
+            'padUsers' => array('padID'),
+            'deletePad' => array('padID'),
+            'getReadOnlyID' => array('padID'),
+            'setPublicStatus' => array('padID', 'publicStatus'),
+            'getPublicStatus' => array('padID'),
+            'setPassword' => array('padID', 'password'),
+            'isPasswordProtected' => array('padID'),
+            'listAuthorsOfPad' => array('padID'),
+            'getLastEdited' => array('padID'),
+            'sendClientsMessage' => array('padID', 'msg'),
+            'checkToken' => array(),
+            'listAllPads' => array(),
+        );
     }
 }
