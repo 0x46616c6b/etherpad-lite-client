@@ -106,7 +106,8 @@ class Client
         $this->url = $url;
     }
 
-    public function __call($method, $args = array()) {
+    public function __call($method, $args = array())
+    {
         if (!in_array($method, $this->methods)) {
             throw new UnsupportedMethodException();
         }
