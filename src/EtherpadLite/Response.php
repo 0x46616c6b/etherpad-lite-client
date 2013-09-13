@@ -18,7 +18,7 @@ class Response
             $this->response = $response->json();
 
             foreach ($this->response as $key => $value) {
-                $this->$key = $value;
+                $this->response[$key] = $value;
             }
         } else {
             // TODO: Error handling
