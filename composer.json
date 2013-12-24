@@ -2,6 +2,7 @@
     "name": "0x46616c6b/etherpad-lite-client",
     "description": "PHP Client for Etherpad Lite",
     "minimum-stability": "dev",
+    "license": "GPL-3.0",
     "authors": [
         {
             "name": "Louis Miller",
