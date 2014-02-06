@@ -58,7 +58,7 @@ class Request
      *
      * @return array
      */
-    protected function getParams()
+    public function getParams()
     {
         $params = array();
         $args = $this->args;
