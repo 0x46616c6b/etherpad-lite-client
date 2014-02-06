@@ -59,12 +59,22 @@ class Client
     private $apikey = null;
     private $url = null;
 
+    /**
+     * @param $apikey
+     * @param string $url
+     */
     public function __construct($apikey, $url = 'http://localhost:9001')
     {
         $this->apikey = $apikey;
         $this->url = $url;
     }
 
+    /**
+     * @param $method
+     * @param array $args
+     * @return Response
+     * @throws Exception\UnsupportedMethodException
+     */
     public function __call($method, $args = array())
     {
         if (!in_array($method, array_keys(self::getMethods()))) {

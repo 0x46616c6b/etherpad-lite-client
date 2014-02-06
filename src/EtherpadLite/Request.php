@@ -11,6 +11,12 @@ class Request
     private $method;
     private $args;
 
+    /**
+     * @param $url
+     * @param $apikey
+     * @param $method
+     * @param array $args
+     */
     public function __construct($url, $apikey, $method, $args = array())
     {
         $this->url = $url;

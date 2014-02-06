@@ -12,6 +12,9 @@ class Response
 
     private $response = array();
 
+    /**
+     * @param \Guzzle\Http\Message\Response $response
+     */
     public function __construct(\Guzzle\Http\Message\Response $response)
     {
         if ($response->isSuccessful()) {
