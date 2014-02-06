@@ -10,7 +10,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \EtherpadLite\Exception\UnsupportedMethodException
-     * @dataProvider unsupportedMethods
+     * @dataProvider unsupportedMethodProvider
      */
     public function testUnsupportedMethods($method)
     {
@@ -18,7 +18,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $client->$method();
     }
 
-    public function unsupportedMethods()
+    public function unsupportedMethodProvider()
     {
         return array(
             array('listMyImportantPad'),
