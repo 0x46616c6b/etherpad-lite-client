@@ -14,9 +14,9 @@ Example (after install)
 
 	<?php
 	
-	$client = \EtherpadLite\Client($apikey);
+	$client = new \EtherpadLite\Client($apikey);
 	// if you don't use http://localhost:9001
-	//$client = \EtherpadLite\Client($apikey, 'http://example.com:9001');
+	//$client = new \EtherpadLite\Client($apikey, 'http://example.com:9001');
 	
 	/** @var $response \EtherpadLite\Response */
 	$response = $client->checkToken();
@@ -24,5 +24,3 @@ Example (after install)
 	echo $response->getCode();
 	echo $response->getMessage();
 	echo $response->getData();
-
-
