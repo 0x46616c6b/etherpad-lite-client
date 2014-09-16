@@ -30,6 +30,7 @@ use EtherpadLite\Exception\UnsupportedMethodException;
  * @method Response getText($padID, $rev = null) returns the text of a pad
  * @method Response setText($padID, $text) sets the text of a pad
  * @method Response getHTML($padID, $rev = null) returns the text of a pad formatted as HTML
+ * @method Response setHTML($padID, $html) sets the html of a pad
  *
  * @method Response getChatHistory($padID, $start = null, $end = null) a part of the chat history, when start and end are given, the whole chat histroy, when no extra parameters are given
  * @method Response getChatHead($padID) returns the chatHead (last number of the last chat-message) of the pad
@@ -129,6 +130,7 @@ class Client
             'getText' => array('padID', 'rev'),
             'setText' => array('padID', 'text'),
             'getHTML' => array('padID', 'rev'),
+            'setHTML' => array('padID', 'html'),
             'getChatHistory' => array('padID', 'start', 'end'),
             'getChatHead' => array('padID'),
             'createPad' => array('padID', 'text'),
