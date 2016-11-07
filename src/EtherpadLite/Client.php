@@ -22,7 +22,7 @@ use EtherpadLite\Exception\UnsupportedMethodException;
  * @method Response getAuthorName($authorID) Returns the Author Name of the author
  *
  * @method Response createSession($groupID, $authorID, $validUntil) creates a new session. validUntil is an unix timestamp in seconds
- * @method Response deleteSession($sessionID) creates a new session. validUntil is an unix timestamp in seconds
+ * @method Response deleteSession($sessionID) deletes a session by id
  * @method Response getSessionInfo($sessionID) returns informations about a session
  * @method Response listSessionsOfGroup($groupID) returns all sessions of a group
  * @method Response listSessionsOfAuthor($authorID) returns all sessions of an author
