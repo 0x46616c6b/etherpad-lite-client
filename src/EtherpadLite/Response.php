@@ -12,7 +12,7 @@ class Response
     const CODE_NO_SUCH_FUNCTION = 3;
     const CODE_NO_OR_WRONG_API_KEY = 4;
 
-    /** @var \stdClass */
+    /** @var array */
     private $data;
 
     /**
@@ -21,7 +21,7 @@ class Response
     public function __construct(ResponseInterface $response)
     {
         if ($response->getStatusCode() === 200) {
-            $this->data = \GuzzleHttp\json_decode($response->getBody(), true);
+            $this->data = (array) \GuzzleHttp\json_decode($response->getBody(), true);
         } else {
             $this->data = array();
         }
