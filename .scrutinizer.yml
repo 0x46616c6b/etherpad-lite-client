@@ -14,4 +14,4 @@ build:
 
 filter:
     excluded_paths:
-        - src/Tests/*
+        - src/EtherpadLite/Tests/*

@@ -26,4 +26,13 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             array('setPadName')
         );
     }
+
+    public function testGeneratePadID()
+    {
+        $client = new Client(self::API_KEY);
+        $padId = $client->generatePadID();
+
+        $this->assertTrue(is_string($padId));
+        $this->assertEquals(16,strlen($padId));
+    }
 }

@@ -32,7 +32,7 @@ class Response
      */
     public function getCode()
     {
-        return $this->getResponseKey('code');
+        return $this->getPropertyFromData('code');
     }
 
     /**
@@ -40,7 +40,7 @@ class Response
      */
     public function getMessage()
     {
-        return $this->getResponseKey('message');
+        return $this->getPropertyFromData('message');
     }
 
     /**
@@ -48,7 +48,7 @@ class Response
      */
     public function getData()
     {
-        return $this->getResponseKey('data');
+        return $this->getPropertyFromData('data');
     }
 
     /**
@@ -63,7 +63,7 @@ class Response
      * @param string $key
      * @return mixed
      */
-    private function getResponseKey($key)
+    private function getPropertyFromData($key)
     {
         return isset($this->data[$key]) ? $this->data[$key] : null;
     }
