@@ -1,7 +1,6 @@
 {
     "name": "0x46616c6b/etherpad-lite-client",
     "description": "PHP Client for Etherpad Lite",
-    "minimum-stability": "dev",
     "license": "GPL-3.0",
     "authors": [
         {
@@ -9,16 +8,14 @@
             "email": "louis@systemli.org"
         }
     ],
+    "autoload": {
+        "psr-4": { "": "src/" }
+    },
     "require": {
-        "php": ">=5.3.3",
+        "php": "^5.6|^7.0",
         "guzzlehttp/guzzle": "~3.7"
     },
     "require-dev": {
-        "phpunit/phpunit": "*@stable"
-    },
-    "autoload": {
-        "psr-0": {
-            "EtherpadLite": "src/"
-        }
+        "phpunit/phpunit": "~5.7"
     }
 }
