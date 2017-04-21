@@ -1,6 +1,6 @@
 # PHP Client for Etherpad Lite
 
-[![Latest Stable Version](https://poser.pugx.org/0x46616c6b/etherpad-lite-client/v/stable.png)](https://packagist.org/packages/0x46616c6b/etherpad-lite-client) [![License](https://poser.pugx.org/0x46616c6b/etherpad-lite-client/license.png)](https://packagist.org/packages/0x46616c6b/etherpad-lite-client) [![Build Status](https://travis-ci.org/0x46616c6b/etherpad-lite-client.png?branch=master)](https://travis-ci.org/0x46616c6b/etherpad-lite-client) [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/0x46616c6b/etherpad-lite-client/badges/quality-score.png?s=0242a9f3d615ba0ed839a42bbb6aeaefc3aa8370)](https://scrutinizer-ci.com/g/0x46616c6b/etherpad-lite-client/)
+[![Build Status](https://travis-ci.org/0x46616c6b/etherpad-lite-client.svg?branch=master)](https://travis-ci.org/0x46616c6b/etherpad-lite-client) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/0x46616c6b/etherpad-lite-client/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/0x46616c6b/etherpad-lite-client/?branch=master) [![Latest Stable Version](https://poser.pugx.org/0x46616c6b/etherpad-lite-client/v/stable.png)](https://packagist.org/packages/0x46616c6b/etherpad-lite-client) [![License](https://poser.pugx.org/0x46616c6b/etherpad-lite-client/license.png)](https://packagist.org/packages/0x46616c6b/etherpad-lite-client)
 
 This package provides an easy access to [Etherpad Lite](https://github.com/ether/etherpad-lite) throw there built-in [HTTP API](http://etherpad.org/doc/v1.2.11/#index_http_api).
 
@@ -8,7 +8,7 @@ This package provides an easy access to [Etherpad Lite](https://github.com/ether
 
 Install the package via Composer
 
-	composer require 0x46616c6b/etherpad-lite-client:dev-master
+	composer require 0x46616c6b/etherpad-lite-client
 
 Example (after install)
 
@@ -24,3 +24,13 @@ Example (after install)
 	echo $response->getCode();
 	echo $response->getMessage();
 	echo $response->getData();
+
+## Contributing
+
+Feel free to contribute to this repository.
+
+1. Fork it!
+2. Create your feature branch: `git checkout -b my-new-feature`
+3. Commit your changes: `git commit -am 'Add some feature'`
+4. Push to the branch: `git push origin my-new-feature`
+5. Submit a pull request
