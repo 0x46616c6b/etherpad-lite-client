@@ -2,25 +2,28 @@
 
 namespace EtherpadLite;
 
+use GuzzleHttp\Client as HttpClient;
+use Psr\Http\Message\ResponseInterface;
+
 class Request
 {
     const API_VERSION = '1.2.7';
 
-    private $apikey = null;
+    private $apiKey = null;
     private $url = null;
     private $method;
     private $args;
 
     /**
      * @param $url
-     * @param $apikey
+     * @param $apiKey
      * @param $method
      * @param array $args
      */
-    public function __construct($url, $apikey, $method, $args = array())
+    public function __construct($url, $apiKey, $method, $args = array())
     {
         $this->url = $url;
-        $this->apikey = $apikey;
+        $this->apiKey = $apiKey;
         $this->method = $method;
         $this->args = $args;
     }
@@ -28,21 +31,18 @@ class Request
     /**
      * Send the built request url against the etherpad lite instance
      *
-     * @return \Guzzle\Http\Message\Response
+     * @return ResponseInterface
      */
     public function send()
     {
-        $client = new \Guzzle\Http\Client($this->url);
+        $client = new HttpClient($this->url);
 
-        $request = $client->get(
+        return $client->get(
             $this->getUrlPath(),
-            array(),
             array(
                 'query' => $this->getParams()
             )
         );
-
-        return $request->send();
     }
 
     /**
@@ -71,7 +71,7 @@ class Request
         $params = array();
         $args = $this->args;
 
-        $params['apikey'] = $this->apikey;
+        $params['apikey'] = $this->apiKey;
 
         $methods = Client::getMethods();
 

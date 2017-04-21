@@ -2,6 +2,8 @@
 
 namespace EtherpadLite;
 
+use Psr\Http\Message\ResponseInterface;
+
 class Response
 {
     const CODE_OK = 0;
@@ -10,23 +12,18 @@ class Response
     const CODE_NO_SUCH_FUNCTION = 3;
     const CODE_NO_OR_WRONG_API_KEY = 4;
 
-    private $response = array();
+    /** @var \stdClass */
+    private $data;
 
     /**
-     * @param \Guzzle\Http\Message\Response $response
+     * @param ResponseInterface $response
      */
-    public function __construct(\Guzzle\Http\Message\Response $response)
+    public function __construct(ResponseInterface $response)
     {
-        if ($response->isSuccessful()) {
-            $this->response = $response->json();
-
-            if (is_array($this->response)) {
-                foreach ($this->response as $key => $value) {
-                    $this->response[$key] = $value;
-                }
-            }
+        if ($response->getStatusCode() === 200) {
+            $this->data = \GuzzleHttp\json_decode($response->getBody(), true);
         } else {
-            // TODO: Error handling
+            $this->data = array();
         }
     }
 
@@ -35,7 +32,7 @@ class Response
      */
     public function getCode()
     {
-        return isset($this->response['code']) ? $this->response['code'] : null;
+        return $this->getResponseKey('code');
     }
 
     /**
@@ -43,7 +40,7 @@ class Response
      */
     public function getMessage()
     {
-        return isset($this->response['message']) ? $this->response['message'] : null;
+        return $this->getResponseKey('message');
     }
 
     /**
@@ -51,16 +48,23 @@ class Response
      */
     public function getData()
     {
-        return isset($this->response['data']) ? $this->response['data'] : null;
+        return $this->getResponseKey('data');
     }
 
     /**
-     * Returns the entire response from Etherpad Lite API
-     *
      * @return array
      */
     public function getResponse()
     {
-        return $this->response;
+        return $this->data;
+    }
+
+    /**
+     * @param string $key
+     * @return mixed
+     */
+    private function getResponseKey($key)
+    {
+        return isset($this->data[$key]) ? $this->data[$key] : null;
     }
 }

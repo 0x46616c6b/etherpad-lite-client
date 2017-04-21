@@ -7,39 +7,72 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider jsonResponseProvider
      */
-    public function testResponse($json)
+    public function testResponse($rawResponse, $expected)
     {
-        $bodyArray = json_decode($json, true);
-
-        $httpResponse = $this->getMockBuilder('\Guzzle\Http\Message\Response')
-            ->setConstructorArgs(array(200, null, $json))
+        $httpResponse = $this->getMockBuilder('\Psr\Http\Message\ResponseInterface')
+            ->setConstructorArgs([200, null, $rawResponse])
             ->getMock();
 
         $httpResponse
             ->expects($this->once())
-            ->method('isSuccessful')
-            ->will($this->returnValue(true));
+            ->method('getStatusCode')
+            ->will($this->returnValue(200));
 
         $httpResponse
             ->expects($this->once())
-            ->method('json')
-            ->will($this->returnValue($bodyArray));
+            ->method('getBody')
+            ->will($this->returnValue($rawResponse));
 
         $response = new \EtherpadLite\Response($httpResponse);
 
-        $this->assertEquals($bodyArray, $response->getResponse());
-        $this->assertEquals($bodyArray['code'], $response->getCode());
-        $this->assertEquals($bodyArray['message'], $response->getMessage());
-        $this->assertEquals($bodyArray['data'], $response->getData());
+        $this->assertNotEmpty($response->getResponse());
+        $this->assertArrayHasKey('code', $response->getResponse());
+        $this->assertArrayHasKey('message', $response->getResponse());
+        $this->assertArrayHasKey('data', $response->getResponse());
+        $this->assertEquals($expected['code'], $response->getCode());
+        $this->assertEquals($expected['message'], $response->getMessage());
+        $this->assertEquals($expected['data'], $response->getData());
     }
 
     public function jsonResponseProvider()
     {
-        return array(
-            array('{"code": 0, "message":"ok", "data": {"groupID": "g.s8oes9dhwrvt0zif"}}'),
-            array('{"code":0,"message":"ok","data":{"padIDs":["g.OTeVWJ4KuZyRBlDI$aaa","meinNEUESPad","sjImkoFqDK","t08dXmHh1t"]}}'),
-            array('{"code":4,"message":"no or wrong API Key","data":null}'),
-            array('{"code":0,"message":"ok","data":null}')
-        );
+        return [
+            [
+                '{"code":0,"message":"ok","data":{"groupID": "g.s8oes9dhwrvt0zif"}}',
+                [
+                    'code' => 0,
+                    'message' => 'ok',
+                    'data' => [
+                        'groupID' => 'g.s8oes9dhwrvt0zif'
+                    ]
+                ]
+            ],
+            [
+                '{"code":0,"message":"ok","data":{"padIDs":["g.OTeVWJ4KuZyRBlDI$aaa","meinNEUESPad","sjImkoFqDK","t08dXmHh1t"]}}',
+                [
+                    'code' => 0,
+                    'message' => 'ok',
+                    'data' => [
+                        'padIDs' => ['g.OTeVWJ4KuZyRBlDI$aaa','meinNEUESPad','sjImkoFqDK','t08dXmHh1t']
+                    ]
+                ]
+            ],
+            [
+                '{"code":4,"message":"no or wrong API Key","data":null}',
+                [
+                    'code' => 4,
+                    'message' => 'no or wrong API Key',
+                    'data' => null
+                ]
+            ],
+            [
+                '{"code":0,"message":"ok","data":null}',
+                [
+                    'code' => 0,
+                    'message' => 'ok',
+                    'data' => null
+                ]
+            ],
+        ];
     }
 }
