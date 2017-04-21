@@ -20,8 +20,10 @@ class Response
         if ($response->isSuccessful()) {
             $this->response = $response->json();
 
-            foreach ($this->response as $key => $value) {
-                $this->response[$key] = $value;
+            if (is_array($this->response)) {
+                foreach ($this->response as $key => $value) {
+                    $this->response[$key] = $value;
+                }
             }
         } else {
             // TODO: Error handling
