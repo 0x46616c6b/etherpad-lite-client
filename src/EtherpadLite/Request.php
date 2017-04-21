@@ -52,7 +52,9 @@ class Request
      */
     protected function getUrlPath()
     {
-        return sprintf(
+        $existingPath = parse_url($this->url, PHP_URL_PATH);
+
+        return $existingPath . sprintf(
             '/api/%s/%s',
             self::API_VERSION,
             $this->method
