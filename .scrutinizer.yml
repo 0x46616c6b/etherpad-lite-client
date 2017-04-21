@@ -1,6 +1,7 @@
-filter:
-    excluded_paths:
-        - src/Tests/*
+checks:
+    php:
+        code_rating: true
+        duplication: true
 
 build:
     tests:
@@ -10,3 +11,7 @@ build:
                 coverage:
                     file: 'coverage.xml'
                     format: 'clover'
+
+filter:
+    excluded_paths:
+        - src/Tests/*
