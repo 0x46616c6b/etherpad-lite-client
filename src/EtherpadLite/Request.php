@@ -35,7 +35,7 @@ class Request
      */
     public function send()
     {
-        $client = new HttpClient($this->url);
+        $client = new HttpClient(['base_uri' => $this->url]);
 
         return $client->get(
             $this->getUrlPath(),
