@@ -4,26 +4,42 @@
 
 This package provides an easy access to [Etherpad Lite](https://github.com/ether/etherpad-lite) throw there built-in [HTTP API](http://etherpad.org/doc/v1.2.11/#index_http_api).
 
+**Supported API Version: 1.2.13 (Release: 1.6.1)**
+
 ## Installation
 
 Install the package via Composer
 
-	composer require 0x46616c6b/etherpad-lite-client
+    composer require 0x46616c6b/etherpad-lite-client
 
 Example (after install)
 
-	<?php
-	
-	$client = new \EtherpadLite\Client($apikey);
-	// if you don't use http://localhost:9001
-	//$client = new \EtherpadLite\Client($apikey, 'http://example.com:9001');
-	
-	/** @var $response \EtherpadLite\Response */
-	$response = $client->checkToken();
+    <?php
+    
+    $client = new \EtherpadLite\Client($apikey);
+    // if you don't use http://localhost:9001
+    //$client = new \EtherpadLite\Client($apikey, 'http://example.com:9001');
+    
+    /** @var $response \EtherpadLite\Response */
+    $response = $client->checkToken();
 
-	echo $response->getCode();
-	echo $response->getMessage();
-	echo $response->getData();
+    echo $response->getCode();
+    echo $response->getMessage();
+    echo $response->getData();
+
+## Testing
+
+    vendor/bin/phpunit
+    
+    # Integration Tests
+    # > requires a running etherpad lite instance
+    #
+    # Environment Variables:
+    # ----------------------
+    # 		API_KEY=cqOtzCYEUyzR23s8tftePVo8HHO
+    # 		BASE_URL=http://localhost:9001
+    
+    vendor/bin/behat -f progress
 
 ## Contributing
 
