@@ -7,8 +7,6 @@ use Psr\Http\Message\ResponseInterface;
 
 class Request
 {
-    const API_VERSION = '1.2.7';
-
     private $apiKey = null;
     private $url = null;
     private $method;
@@ -55,10 +53,10 @@ class Request
         $existingPath = parse_url($this->url, PHP_URL_PATH);
 
         return $existingPath . sprintf(
-            '/api/%s/%s',
-            self::API_VERSION,
-            $this->method
-        );
+                '/api/%s/%s',
+                Client::API_VERSION,
+                $this->method
+            );
     }
 
     /**
