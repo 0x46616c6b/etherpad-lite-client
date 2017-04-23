@@ -18,11 +18,14 @@ class FeatureContext implements Context
     private $placeholders = array();
 
     /**
-     * @Given the eplite instance at :url and api key :apikey
+     * FeatureContext constructor.
      */
-    public function theEpliteInstanceAtAndApiKey($url, $apikey)
+    public function __construct()
     {
-        self::$client = new Client($apikey, $url);
+        $apikey = (getenv('API_KEY')) ?: 'cqOtzCYEUyzR23s8tftePVo8HHO';
+        $baseUrl = (getenv('BASE_URL')) ?: 'http://localhost:9001';
+
+        self::$client = new Client($apikey, $baseUrl);
     }
 
     /**
@@ -188,7 +191,8 @@ class FeatureContext implements Context
      * @param $method
      * @param array $params
      */
-    private function callApi($method, array $params = array()) {
+    private function callApi($method, array $params = array())
+    {
         $this->checkIfClientIsInitialized();
         $this->response = call_user_func_array(array(self::$client, $method), $params);
     }
@@ -203,7 +207,8 @@ class FeatureContext implements Context
         }
     }
 
-    private function transformValue($value) {
+    private function transformValue($value)
+    {
         $matches = null;
 
         if (preg_match('/{{(.*)}}/', $value, $matches)) {

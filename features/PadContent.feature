@@ -1,8 +1,7 @@
 Feature: PadContent API
 
   Background:
-    Given the eplite instance at "http://localhost:9001" and api key "a4690b6696e707aa016f568e04e1cdc525a5d92f7286bf62e3280a17836803b4"
-    And all pads are deleted
+    Given all pads are deleted
 
   Scenario: Get text for a pad
     Given a pad "pad" exists

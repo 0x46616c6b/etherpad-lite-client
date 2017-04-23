@@ -1,8 +1,5 @@
 Feature: Session API
 
-  Background:
-    Given the eplite instance at "http://localhost:9001" and api key "a4690b6696e707aa016f568e04e1cdc525a5d92f7286bf62e3280a17836803b4"
-
   Scenario: Create session for non existing group
     When I call "createSession" with params:
       | groupID    | g.0000000000000000 |
