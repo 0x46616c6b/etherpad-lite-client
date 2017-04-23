@@ -29,6 +29,7 @@ use EtherpadLite\Exception\UnsupportedMethodException;
  *
  * @method Response getText($padID, $rev = null) returns the text of a pad
  * @method Response setText($padID, $text) sets the text of a pad
+ * @method Response appendText($padID, $text) appends text to a pad
  * @method Response getHTML($padID, $rev = null) returns the text of a pad formatted as HTML
  * @method Response setHTML($padID, $html) sets the html of a pad
  * @method Response getAttributePool($padID) returns the attribute pool of a pad
@@ -140,6 +141,7 @@ class Client
             'listSessionsOfAuthor' => array('authorID'),
             'getText' => array('padID', 'rev'),
             'setText' => array('padID', 'text'),
+            'appendText' => array('padID', 'text'),
             'getHTML' => array('padID', 'rev'),
             'setHTML' => array('padID', 'html'),
             'getAttributePool' => array('padID'),
