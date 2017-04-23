@@ -31,16 +31,27 @@ use EtherpadLite\Exception\UnsupportedMethodException;
  * @method Response setText($padID, $text) sets the text of a pad
  * @method Response getHTML($padID, $rev = null) returns the text of a pad formatted as HTML
  * @method Response setHTML($padID, $html) sets the html of a pad
+ * @method Response getAttributePool($padID) returns the attribute pool of a pad
+ * @method Response getRevisionChangeset($padID, $revision = null) get the changeset at a given revision, or last revision if 'rev' is not defined.
+ * @method Response createDiffHTML($padID, $startRev, $endRev) returns an object of diffs from 2 points in a pad
+ * @method Response restoreRevision($padID, $revision) restores revision from past as new changeset
  *
  * @method Response getChatHistory($padID, $start = null, $end = null) a part of the chat history, when start and end are given, the whole chat histroy, when no extra parameters are given
  * @method Response getChatHead($padID) returns the chatHead (last number of the last chat-message) of the pad
+ * @method Response appendChatMessage($padID, $text, $authorID, $time = null) creates a chat message, saves it to the database and sends it to all connected clients of this pad
  *
  * @method Response createPad($padID, $text = null) creates a new (non-group) pad. Note that if you need to create a group Pad, you should call createGroupPad.
  * @method Response getRevisionsCount($padID) returns the number of revisions of this pad
+ * @method Response getSavedRevisionsCount($padID) returns the number of saved revisions of this pad
+ * @method Response listSavedRevisions($padID) returns a list of saved revisions of this pad
+ * @method Response saveRevision($padID, $revision = null) save a revision of a pad
  * @method Response padUsersCount($padID) returns the number of user that are currently editing this pad
  * @method Response padUsers($padID) returns the list of users that are currently editing this pad
  * @method Response deletePad($padID) deletes a pad
+ * @method Response movePad($sourceID, $destinationID, $force = false) moves a pad. If force is true and the destination pad exists, it will be overwritten.
+ * @method Response copyPad($sourceID, $destinationID, $force = false) copies a pad with full history and chat. If force is true and the destination pad exists, it will be overwritten.
  * @method Response getReadOnlyID($padID) returns the read only link of a pad
+ * @method Response getPadID($readOnlyID) returns the id of a pad which is assigned to the readOnlyID
  * @method Response setPublicStatus($padID, $publicStatus) sets a boolean for the public status of a pad
  * @method Response getPublicStatus($padID) return true of false
  * @method Response setPassword($padID, $password) returns ok or a error message
@@ -55,7 +66,7 @@ use EtherpadLite\Exception\UnsupportedMethodException;
  */
 class Client
 {
-    const API_VERSION = '1.2.7';
+    const API_VERSION = '1.2.13';
 
     private $apikey = null;
     private $url = null;
@@ -131,14 +142,25 @@ class Client
             'setText' => array('padID', 'text'),
             'getHTML' => array('padID', 'rev'),
             'setHTML' => array('padID', 'html'),
+            'getAttributePool' => array('padID'),
+            'createDiffHTML' => array('padID', 'startRev', 'endRev'),
+            'restoreRevision' => array('padID', 'rev'),
+            'getRevisionChangeset' => array('padID'),
             'getChatHistory' => array('padID', 'start', 'end'),
             'getChatHead' => array('padID'),
+            'appendChatMessage' => array('padID', 'text', 'authorID'),
             'createPad' => array('padID', 'text'),
             'getRevisionsCount' => array('padID'),
+            'getSavedRevisionsCount' => array('padID'),
+            'listSavedRevisions' => array('padID'),
+            'saveRevision' => array('padID'),
             'padUsersCount' => array('padID'),
             'padUsers' => array('padID'),
             'deletePad' => array('padID'),
+            'movePad' => array('sourceID', 'destinationID'),
+            'copyPad' => array('sourceID', 'destinationID'),
             'getReadOnlyID' => array('padID'),
+            'getPadID' => array('readOnlyID'),
             'setPublicStatus' => array('padID', 'publicStatus'),
             'getPublicStatus' => array('padID'),
             'setPassword' => array('padID', 'password'),
