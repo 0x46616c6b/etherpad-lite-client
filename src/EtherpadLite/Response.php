@@ -44,11 +44,28 @@ class Response
     }
 
     /**
+     * Get Response Data Array.
+     *
+     * By default the whole array will be returned. In order to retrieve just a key based response, provide an array Key.
+     *
+     * ```php
+     * $response = (new Client())->createAuthorIfNotExistsFor(1, 'John Doe');
+     * $authorId = $response->getData('authorID');
+     * ```
+     *
+     * @param string $key Access a given key from the data array, if no key is provided all data will be returned.
+     * @param mixed $defaultValue If the given key is not found in the array, the $defaultValue will be returned.
      * @return string|null
      */
-    public function getData()
+    public function getData($key = null, $defaultValue = null)
     {
-        return $this->getPropertyFromData('data');
+        $data = $this->getPropertyFromData('data');
+        
+        if ($key) {
+            return isset($data[$key]) ? $data[$key] : $defaultValue;
+        }
+        
+        return $data;
     }
 
     /**
