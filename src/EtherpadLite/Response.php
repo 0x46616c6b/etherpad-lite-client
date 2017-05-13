@@ -61,7 +61,7 @@ class Response
     {
         $data = $this->getPropertyFromData('data');
         
-        if ($key) {
+        if (null !== $key) {
             return isset($data[$key]) ? $data[$key] : $defaultValue;
         }
         
