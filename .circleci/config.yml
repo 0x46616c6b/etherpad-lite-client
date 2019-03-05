@@ -7,7 +7,6 @@ jobs:
       - image: systemli/etherpad-lite:1.6.1
     steps:
       - checkout
-      - run: docker run -d -p 127.0.0.1:9001:9001 systemli/etherpad-lite:1.6.1
       - run: sudo composer self-update
       - restore_cache:
           keys:
