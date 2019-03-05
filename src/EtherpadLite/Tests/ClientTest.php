@@ -3,8 +3,9 @@
 namespace EtherpadLite\Tests;
 
 use EtherpadLite\Client;
+use PHPUnit\Framework\TestCase;
 
-class ClientTest extends \PHPUnit_Framework_TestCase
+class ClientTest extends TestCase
 {
     const API_KEY = 'T6UnYqgl19';
 

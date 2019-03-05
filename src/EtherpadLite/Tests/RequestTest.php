@@ -3,8 +3,9 @@
 namespace EtherpadLite\Tests;
 
 use EtherpadLite\Request;
+use PHPUnit\Framework\TestCase;
 
-class RequestTest extends \PHPUnit_Framework_TestCase
+class RequestTest extends TestCase
 {
     const API_URL = 'http://localhost:9001';
     const API_KEY = 'abcdef';

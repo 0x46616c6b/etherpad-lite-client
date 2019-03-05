@@ -3,9 +3,10 @@
 namespace EtherpadLite\Tests;
 
 use EtherpadLite\Response;
+use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 
-class ResponseTest extends \PHPUnit_Framework_TestCase
+class ResponseTest extends TestCase
 {
     /**
      * @dataProvider jsonResponseProvider

@@ -21,16 +21,16 @@ class Response
     public function __construct(ResponseInterface $response)
     {
         if ($response->getStatusCode() === 200) {
-            $this->data = (array) \GuzzleHttp\json_decode($response->getBody(), true);
+            $this->data = (array)\GuzzleHttp\json_decode($response->getBody(), true);
         } else {
-            $this->data = array();
+            $this->data = [];
         }
     }
 
     /**
      * @return string|null
      */
-    public function getCode()
+    public function getCode(): ?string
     {
         return $this->getPropertyFromData('code');
     }
@@ -38,7 +38,7 @@ class Response
     /**
      * @return string|null
      */
-    public function getMessage()
+    public function getMessage(): ?string
     {
         return $this->getPropertyFromData('message');
     }
@@ -55,23 +55,23 @@ class Response
      *
      * @param string $key Access a given key from the data array, if no key is provided all data will be returned.
      * @param mixed $defaultValue If the given key is not found in the array, the $defaultValue will be returned.
-     * @return string|null
+     * @return array|string|null
      */
     public function getData($key = null, $defaultValue = null)
     {
         $data = $this->getPropertyFromData('data');
-        
+
         if (null !== $key) {
             return isset($data[$key]) ? $data[$key] : $defaultValue;
         }
-        
+
         return $data;
     }
 
     /**
      * @return array
      */
-    public function getResponse()
+    public function getResponse(): array
     {
         return $this->data;
     }

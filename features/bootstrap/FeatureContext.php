@@ -58,7 +58,7 @@ class FeatureContext implements Context
         $response = $this->getResponse();
         $code = $response->getCode();
 
-        if ((int)$expected !== $code) {
+        if ($expected !== $code) {
             $this->handleError();
         }
     }
