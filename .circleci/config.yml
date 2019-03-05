@@ -1,0 +1,27 @@
+version: 2
+
+jobs:
+  build:
+    docker:
+      - image: circleci/php:7.0
+      - image: systemli/etherpad-lite:1.6.1
+    steps:
+      - checkout
+      - run: sudo composer self-update
+      - restore_cache:
+          keys:
+            - composer-{{ checksum "composer.lock" }}
+      - run: composer install -n --prefer-dist
+      - save_cache:
+          key: composer-{{ checksum "composer.lock" }}
+          paths:
+            - vendor
+      - run:
+          name: Running PHPUnit
+          command: vendor/bin/phpunit
+      - run:
+          name: Wait for Etherpad
+          command: dockerize -wait tcp://localhost:9001 -timeout 1m
+      - run:
+          name: Running Behat
+          command: vendor/bin/behat -f progress
