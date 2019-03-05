@@ -3,7 +3,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/php:7.0
+      - image: circleci/php:7.1
       - image: systemli/etherpad-lite:1.6.1
     steps:
       - checkout
