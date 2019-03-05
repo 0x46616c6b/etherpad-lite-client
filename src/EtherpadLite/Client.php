@@ -69,32 +69,39 @@ class Client
 {
     const API_VERSION = '1.2.13';
 
+    /**
+     * @var string|null
+     */
     private $apikey = null;
+    /**
+     * @var string|null
+     */
     private $url = null;
 
     /**
-     * @param $apikey
+     * @param string $apikey
      * @param string $url
      */
-    public function __construct($apikey, $url = 'http://localhost:9001')
+    public function __construct(string $apikey, string $url = 'http://localhost:9001')
     {
         $this->apikey = $apikey;
         $this->url = $url;
     }
 
     /**
-     * @param $method
+     * @param string $method
      * @param array $args
      * @return Response
      * @throws Exception\UnsupportedMethodException
      */
-    public function __call($method, $args = array())
+    public function __call(string $method, $args = []): Response
     {
         if (!in_array($method, array_keys(self::getMethods()))) {
             throw new UnsupportedMethodException();
         }
 
         $request = new Request($this->url, $this->apikey, $method, $args);
+
         return new Response($request->send());
     }
 
@@ -103,14 +110,14 @@ class Client
      *
      * @return string
      */
-    public function generatePadID()
+    public function generatePadID(): string
     {
         $chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
         $length = 16;
         $padID = "";
 
         for ($i = 0; $i < $length; $i++) {
-            $padID .= $chars[rand()%strlen($chars)];
+            $padID .= $chars[rand() % strlen($chars)];
         }
 
         return $padID;
@@ -121,57 +128,57 @@ class Client
      *
      * @return array
      */
-    public static function getMethods()
+    public static function getMethods(): array
     {
-        return array(
-            'createGroup' => array(),
-            'createGroupIfNotExistsFor' => array('groupMapper'),
-            'deleteGroup' => array('groupID'),
-            'listPads' => array('groupID'),
-            'createGroupPad' => array('groupID', 'padName', 'text'),
-            'listAllGroups' => array(),
-            'createAuthor' => array('name'),
-            'createAuthorIfNotExistsFor' => array('authorMapper', 'name'),
-            'listPadsOfAuthor' => array('authorID'),
-            'getAuthorName' => array('authorID'),
-            'createSession' => array('groupID', 'authorID', 'validUntil'),
-            'deleteSession' => array('sessionID'),
-            'getSessionInfo' => array('sessionID'),
-            'listSessionsOfGroup' => array('groupID'),
-            'listSessionsOfAuthor' => array('authorID'),
-            'getText' => array('padID', 'rev'),
-            'setText' => array('padID', 'text'),
-            'appendText' => array('padID', 'text'),
-            'getHTML' => array('padID', 'rev'),
-            'setHTML' => array('padID', 'html'),
-            'getAttributePool' => array('padID'),
-            'createDiffHTML' => array('padID', 'startRev', 'endRev'),
-            'restoreRevision' => array('padID', 'rev'),
-            'getRevisionChangeset' => array('padID'),
-            'getChatHistory' => array('padID', 'start', 'end'),
-            'getChatHead' => array('padID'),
-            'appendChatMessage' => array('padID', 'text', 'authorID'),
-            'createPad' => array('padID', 'text'),
-            'getRevisionsCount' => array('padID'),
-            'getSavedRevisionsCount' => array('padID'),
-            'listSavedRevisions' => array('padID'),
-            'saveRevision' => array('padID'),
-            'padUsersCount' => array('padID'),
-            'padUsers' => array('padID'),
-            'deletePad' => array('padID'),
-            'movePad' => array('sourceID', 'destinationID'),
-            'copyPad' => array('sourceID', 'destinationID'),
-            'getReadOnlyID' => array('padID'),
-            'getPadID' => array('readOnlyID'),
-            'setPublicStatus' => array('padID', 'publicStatus'),
-            'getPublicStatus' => array('padID'),
-            'setPassword' => array('padID', 'password'),
-            'isPasswordProtected' => array('padID'),
-            'listAuthorsOfPad' => array('padID'),
-            'getLastEdited' => array('padID'),
-            'sendClientsMessage' => array('padID', 'msg'),
-            'checkToken' => array(),
-            'listAllPads' => array(),
-        );
+        return [
+            'createGroup' => [],
+            'createGroupIfNotExistsFor' => ['groupMapper'],
+            'deleteGroup' => ['groupID'],
+            'listPads' => ['groupID'],
+            'createGroupPad' => ['groupID', 'padName', 'text'],
+            'listAllGroups' => [],
+            'createAuthor' => ['name'],
+            'createAuthorIfNotExistsFor' => ['authorMapper', 'name'],
+            'listPadsOfAuthor' => ['authorID'],
+            'getAuthorName' => ['authorID'],
+            'createSession' => ['groupID', 'authorID', 'validUntil'],
+            'deleteSession' => ['sessionID'],
+            'getSessionInfo' => ['sessionID'],
+            'listSessionsOfGroup' => ['groupID'],
+            'listSessionsOfAuthor' => ['authorID'],
+            'getText' => ['padID', 'rev'],
+            'setText' => ['padID', 'text'],
+            'appendText' => ['padID', 'text'],
+            'getHTML' => ['padID', 'rev'],
+            'setHTML' => ['padID', 'html'],
+            'getAttributePool' => ['padID'],
+            'createDiffHTML' => ['padID', 'startRev', 'endRev'],
+            'restoreRevision' => ['padID', 'rev'],
+            'getRevisionChangeset' => ['padID'],
+            'getChatHistory' => ['padID', 'start', 'end'],
+            'getChatHead' => ['padID'],
+            'appendChatMessage' => ['padID', 'text', 'authorID'],
+            'createPad' => ['padID', 'text'],
+            'getRevisionsCount' => ['padID'],
+            'getSavedRevisionsCount' => ['padID'],
+            'listSavedRevisions' => ['padID'],
+            'saveRevision' => ['padID'],
+            'padUsersCount' => ['padID'],
+            'padUsers' => ['padID'],
+            'deletePad' => ['padID'],
+            'movePad' => ['sourceID', 'destinationID'],
+            'copyPad' => ['sourceID', 'destinationID'],
+            'getReadOnlyID' => ['padID'],
+            'getPadID' => ['readOnlyID'],
+            'setPublicStatus' => ['padID', 'publicStatus'],
+            'getPublicStatus' => ['padID'],
+            'setPassword' => ['padID', 'password'],
+            'isPasswordProtected' => ['padID'],
+            'listAuthorsOfPad' => ['padID'],
+            'getLastEdited' => ['padID'],
+            'sendClientsMessage' => ['padID', 'msg'],
+            'checkToken' => [],
+            'listAllPads' => [],
+        ];
     }
 }

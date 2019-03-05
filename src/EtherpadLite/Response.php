@@ -23,7 +23,7 @@ class Response
         if ($response->getStatusCode() === 200) {
             $this->data = (array) \GuzzleHttp\json_decode($response->getBody(), true);
         } else {
-            $this->data = array();
+            $this->data = [];
         }
     }
 
@@ -71,7 +71,7 @@ class Response
     /**
      * @return array
      */
-    public function getResponse()
+    public function getResponse(): array
     {
         return $this->data;
     }

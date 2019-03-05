@@ -7,18 +7,30 @@ use Psr\Http\Message\ResponseInterface;
 
 class Request
 {
+    /**
+     * @var string|null
+     */
     private $apiKey = null;
+    /**
+     * @var string|null
+     */
     private $url = null;
+    /**
+     * @var string
+     */
     private $method;
+    /**
+     * @var array
+     */
     private $args;
 
     /**
-     * @param $url
-     * @param $apiKey
-     * @param $method
+     * @param string $url
+     * @param string $apiKey
+     * @param string $method
      * @param array $args
      */
-    public function __construct($url, $apiKey, $method, $args = array())
+    public function __construct(string $url, string $apiKey, string $method, $args = [])
     {
         $this->url = $url;
         $this->apiKey = $apiKey;
@@ -31,15 +43,15 @@ class Request
      *
      * @return ResponseInterface
      */
-    public function send()
+    public function send(): ResponseInterface
     {
         $client = new HttpClient(['base_uri' => $this->url]);
 
         return $client->get(
             $this->getUrlPath(),
-            array(
-                'query' => $this->getParams()
-            )
+            [
+                'query' => $this->getParams(),
+            ]
         );
     }
 
@@ -48,11 +60,11 @@ class Request
      *
      * @return string
      */
-    protected function getUrlPath()
+    protected function getUrlPath(): string
     {
         $existingPath = parse_url($this->url, PHP_URL_PATH);
 
-        return $existingPath . sprintf(
+        return $existingPath.sprintf(
                 '/api/%s/%s',
                 Client::API_VERSION,
                 $this->method
@@ -64,7 +76,7 @@ class Request
      *
      * @return array
      */
-    public function getParams()
+    public function getParams(): array
     {
         $params = array();
         $args = $this->args;
