@@ -7,8 +7,6 @@ jobs:
       - image: systemli/etherpad-lite:1.6.1
     steps:
       - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
       - run: sudo composer self-update
       - restore_cache:
           keys:
@@ -21,6 +19,9 @@ jobs:
       - run:
           name: Running PHPUnit
           command: vendor/bin/phpunit
+      - run:
+          name: Wait for Etherpad
+          command: dockerize -wait tcp://localhost:9001 -timeout 1m
       - run:
           name: Running Behat
           command: vendor/bin/behat -f progress
