@@ -19,14 +19,3 @@ Feature: Chat API
     Then the code should be "0"
     And the message should be "ok"
     And the data should contain "chatHead"
-
-  Scenario: Get the chat head for a pad
-    Given a pad "pad" exists
-    And an author "author" exists
-
-    When I call "appendChatMessage" with params:
-      | padID    | {{ padID }}    |
-      | text     | text           |
-      | authorID | {{ authorID }} |
-    Then the code should be "0"
-    And the message should be "ok"

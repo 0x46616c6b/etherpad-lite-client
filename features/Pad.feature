@@ -38,49 +38,6 @@ Feature: Pad API
     And the message should be "ok"
     And the data should contain "revisions"
 
-  Scenario: Get saved revisions from a non existing pad
-    When I call "getSavedRevisionsCount" with params:
-      | padID | pad |
-    Then the code should be "1"
-    And the message should be "padID does not exist"
-
-  Scenario: Get saved revisions from a pad
-    Given a pad "new_pad" exists
-
-    When I call "getSavedRevisionsCount" with params:
-      | padID | {{ padID }} |
-    Then the code should be "0"
-    And the message should be "ok"
-    And the data should contain "savedRevisions"
-
-  Scenario: List saved revisions from a non existing pad
-    When I call "listSavedRevisions" with params:
-      | padID | pad |
-    Then the code should be "1"
-    And the message should be "padID does not exist"
-
-  Scenario: List saved revisions from a pad
-    Given a pad "new_pad" exists
-    When I call "listSavedRevisions" with params:
-      | padID | {{ padID }} |
-    Then the code should be "0"
-    And the message should be "ok"
-    And the data should contain "savedRevisions"
-
-  Scenario: Save revision for a non existing pad
-    When I call "saveRevision" with params:
-      | padID | pad |
-    Then the code should be "1"
-    And the message should be "padID does not exist"
-
-  Scenario: Save revision for a pad
-    Given a pad "new_pad" exists
-
-    When I call "saveRevision" with params:
-      | padID | {{ padID }} |
-    Then the code should be "0"
-    And the message should be "ok"
-
   Scenario: Get current editing user count for a non existing pad
     When I call "padUsersCount" with params:
       | padID | pad |
@@ -127,22 +84,6 @@ Feature: Pad API
     Then the code should be "0"
     And the message should be "ok"
 
-  Scenario: Move a non existing pad
-    When I call "movePad" with params:
-      | sourceID      | pad1 |
-      | destinationID | pad2 |
-    Then the code should be "1"
-    And the message should be "padID does not exist"
-
-  Scenario: Move a pad
-    Given a pad "pad1" exists
-
-    When I call "movePad" with params:
-      | sourceID      | {{ padID }} |
-      | destinationID | pad2        |
-    Then the code should be "0"
-    And the message should be "ok"
-
   Scenario: Get readonly id for a non existing pad
     When I call "getReadOnlyID" with params:
       | padID | pad |
@@ -157,15 +98,6 @@ Feature: Pad API
     Then the code should be "0"
     And the message should be "ok"
     And the data should contain "readOnlyID"
-
-#  Scenario: Get pad id from a readonly pad
-#    Given a readonly pad
-#
-#    When I call "getPadID" with params:
-#      | readOnlyID | {{ readOnlyID }} |
-#    Then the code should be "0"
-#    And the message should be "ok"
-#    And the data should contain "padID"
 
   Scenario: Set public status for a pad
     Given a group pad exists
