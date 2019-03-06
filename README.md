@@ -4,7 +4,7 @@
 
 This package provides an easy access to [Etherpad Lite](https://github.com/ether/etherpad-lite) throw there built-in [HTTP API](http://etherpad.org/doc/v1.2.11/#index_http_api).
 
-**Supported API Version: 1.2.13 (Release: 1.6.1)**
+**Supported API Version: 1.3.0 (Release: 1.7.5)**
 
 ## Installation
 
