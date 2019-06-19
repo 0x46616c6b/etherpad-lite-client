@@ -29,3 +29,12 @@ Feature: PadContent API
     Then the code should be "0"
     And the message should be "ok"
     And the data should contain "html"
+
+  Scenario: Set HTML for a pad
+    Given a pad "pad" exists
+
+    When I call "setText" with params:
+      | padID | {{ padID }} |
+      | html  | html        |
+    Then the code should be "0"
+    And the message should be "ok"

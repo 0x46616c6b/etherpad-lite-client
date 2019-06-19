@@ -42,6 +42,7 @@ class RequestTest extends TestCase
             array('getText', array('padID', 'rev')),
             array('setText', array('padID', 'text')),
             array('getHTML', array('padID', 'rev')),
+            array('setHTML', array('padID', 'html')),
             array('getChatHistory', array('padID', 'start', 'end')),
             array('getChatHead', array('padID')),
             array('createPad', array('padID', 'text')),
