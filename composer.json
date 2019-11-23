@@ -12,7 +12,7 @@
         "psr-4": { "": "src/" }
     },
     "require": {
-        "php": "^7.1|^7.2|^7.3",
+        "php": "^7.2.5|^7.3",
         "guzzlehttp/guzzle": "~6.4"
     },
     "require-dev": {
