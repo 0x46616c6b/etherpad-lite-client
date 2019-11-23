@@ -81,8 +81,8 @@ class ResponseTest extends TestCase
      */
     private function getMockedResponse($rawResponse)
     {
-        $httpResponse = $this->getMockBuilder('\Psr\Http\Message\ResponseInterface')
-            ->setConstructorArgs([200, null, $rawResponse])
+        $httpResponse = $this->getMockBuilder('\GuzzleHttp\Psr7\Response')
+            ->setConstructorArgs([200, [], $rawResponse])
             ->getMock();
 
         $httpResponse
