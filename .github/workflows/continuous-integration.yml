@@ -1,0 +1,39 @@
+name: Continuous Integration
+
+on: [push]
+
+jobs:
+  phpunit:
+    name: PHPUnit
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-versions: ['7.2', '7.3', '7.4']
+    steps:
+      - uses: actions/checkout@v2
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          tools: composer
+      - name: Install dependencies
+        run: composer install
+      - name: Run phpunit
+        run: vendor/bin/phpunit
+
+  behat:
+    name: Integration
+    runs-on: ubuntu-latest
+    services:
+      etherpad:
+        image: systemli/etherpad-lite:1.7.5
+        ports:
+          - 9001:9001
+    steps:
+      - uses: actions/checkout@v2
+      - uses: shivammathur/setup-php@v2
+        with:
+          tools: composer
+      - name: Install dependencies
+        run: composer install
+      - name: Run integration tests
+        run: vendor/bin/behat -f progress
