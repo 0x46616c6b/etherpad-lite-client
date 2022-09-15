@@ -45,7 +45,10 @@ class Request
      */
     public function send(): ResponseInterface
     {
-        $client = new HttpClient(['base_uri' => $this->url]);
+        $client = new HttpClient([
+            'base_uri' => $this->url,
+            'timeout' => $this->args['timeout'] ?? 0,
+        ]);
 
         return $client->get(
             $this->getUrlPath(),
